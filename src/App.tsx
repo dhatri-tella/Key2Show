@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, X } from 'lucide-react';
-import { TopBar } from './components/TopBar';
 import { Navbar, type NavSection } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { SearchBar } from './components/SearchBar';
@@ -407,7 +406,7 @@ export default function App() {
     primaryBookings.find((b) => b.id === lastConfirmedBookingId) ?? primaryBookings[0] ?? null;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#050505] text-white overflow-x-hidden">
+    <div className="k2s-app-shell min-h-screen flex flex-col text-white overflow-x-hidden">
       <OfflineIndicator />
 
       {mapsQuotaExceeded && (
@@ -431,13 +430,6 @@ export default function App() {
           </button>
         </div>
       )}
-
-      <TopBar
-        selectedCity={selectedCity}
-        onSelectCity={setSelectedCity}
-        onOpenInfo={(topic) => setInfoTopic(topic)}
-        onOpenOffersPage={() => navigate('/offers')}
-      />
 
       <Navbar
         activeNav={activeNav}
@@ -835,6 +827,7 @@ export default function App() {
           else setInfoTopic(topic);
         }}
         onOpenAdmin={() => navigate('/admin/login')}
+        onNavigate={navigate}
       />
 
       <MobileBottomNav

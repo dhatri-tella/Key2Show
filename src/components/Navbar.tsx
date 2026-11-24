@@ -4,8 +4,6 @@ import {
   Clapperboard,
   Star,
   Landmark,
-  Info,
-  Mail,
   MapPin,
   ChevronDown,
   User,
@@ -46,8 +44,6 @@ const NAV_ITEMS: { id: NavSection; label: string; icon: React.ComponentType<{ cl
   { id: 'Movies', label: 'Movies', icon: Clapperboard },
   { id: 'Events', label: 'Events', icon: Star },
   { id: 'Theatres', label: 'Theatres', icon: Landmark },
-  { id: 'About Us', label: 'About Us', icon: Info },
-  { id: 'Contact', label: 'Contact', icon: Mail },
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -68,11 +64,15 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const cityRef = useRef<HTMLDivElement>(null);
+  const mobileCityRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleOutside = (e: MouseEvent) => {
       if (cityRef.current && !cityRef.current.contains(e.target as Node)) {
+        setCityOpen(false);
+      }
+      if (mobileCityRef.current && !mobileCityRef.current.contains(e.target as Node)) {
         setCityOpen(false);
       }
       if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
@@ -317,6 +317,55 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Mobile Hamburger */}
         <div className="flex lg:hidden items-center gap-2">
+          <div className="relative" ref={mobileCityRef}>
+            <button
+              type="button"
+              onClick={() => setCityOpen((o) => !o)}
+              aria-expanded={cityOpen}
+              aria-label={`Location ${selectedCity}`}
+              className="inline-flex items-center gap-1 min-h-[44px] px-1.5 sm:px-2 rounded-lg text-[12px] sm:text-[13px] font-semibold text-white/90 hover:bg-white/5 transition-colors cursor-pointer"
+            >
+              <MapPin className="w-4 h-4 text-[#FF1822] shrink-0" />
+              <span className="inline max-w-[62px] truncate">{selectedCity}</span>
+              <ChevronDown className="w-3 h-3 text-white/65 shrink-0" />
+            </button>
+            {cityOpen && (
+              <div
+                role="menu"
+                className="absolute right-0 top-full mt-1 w-40 rounded-xl bg-[#121216] border border-white/15 shadow-2xl py-1.5 z-50"
+              >
+                {CITIES.map((city) => (
+                  <button
+                    key={city}
+                    type="button"
+                    role="menuitem"
+                    onClick={() => {
+                      onSelectCity(city);
+                      setCityOpen(false);
+                    }}
+                    className={`w-full text-left px-3.5 py-2 text-[13px] transition-colors cursor-pointer ${
+                      city === selectedCity
+                        ? 'bg-[#E50914] text-white font-semibold'
+                        : 'text-white/80 hover:bg-white/10 hover:text-white'
+                    }`}
+                  >
+                    {city}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={onOpenLogin}
+            aria-label={userName ? `Open ${userName} account` : 'Login or sign up'}
+            className="inline-flex items-center justify-center min-h-[44px] min-w-[44px] px-2 rounded-lg bg-white text-[#0b0b0e] hover:bg-white/90 transition-colors cursor-pointer"
+          >
+            <User className="w-4 h-4" />
+            <span className="hidden sm:inline ml-1.5 text-[12px] font-bold">
+              {userName ? 'Account' : 'Login'}
+            </span>
+          </button>
           {totalBadge > 0 && (
             <button
               type="button"
