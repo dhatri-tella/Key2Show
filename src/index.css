@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --k2s-bg: #050505;
+    --k2s-surface: #0e0e11;
+    --k2s-surface-2: #141418;
+    --k2s-red: #e50914;
+    --k2s-red-bright: #ff1822;
+    --k2s-border: rgba(255, 255, 255, 0.14);
+  }
+
+  html {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #050505;
+    color: #ffffff;
+    scroll-behavior: smooth;
+  }
+
+  .font-display {
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.k2s-red-glow {
+  box-shadow: 0 0 22px rgba(229, 9, 20, 0.55), 0 4px 14px rgba(229, 9, 20, 0.35);
+}
+
+.k2s-card-hover {
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1), border-color 220ms ease;
+}
+
+.k2s-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(229, 9, 20, 0.24), 0 4px 12px rgba(0, 0, 0, 0.65);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .k2s-card-hover,
+  .k2s-card-hover:hover {
+    transition: none;
+    transform: none;
+  }
+}
