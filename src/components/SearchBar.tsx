@@ -1,14 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Search, MapPin, ChevronDown, X, Film, Landmark, Star, TrendingUp } from 'lucide-react';
-import { CITIES, type CityName } from '../data/events';
+import { Search, X, Film, Landmark, Star, TrendingUp } from 'lucide-react';
 import type { CatalogEvent, CatalogMovie, CatalogTheatre } from '../types/platform';
 
 interface SearchBarProps {
   query: string;
   onQueryChange: (q: string) => void;
   onSubmitSearch: () => void;
-  selectedCity: CityName;
-  onSelectCity: (city: CityName) => void;
   movies?: CatalogMovie[];
   theatres?: CatalogTheatre[];
   events?: CatalogEvent[];
@@ -23,8 +20,6 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   query,
   onQueryChange,
   onSubmitSearch,
-  selectedCity,
-  onSelectCity,
   movies = [],
   theatres = [],
   events = [],
@@ -32,17 +27,12 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   onPickTheatre,
   onPickEvent,
 }) => {
-  const [cityOpen, setCityOpen] = useState(false);
   const [suggestOpen, setSuggestOpen] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>(['Pushpa', 'AMB Cinemas']);
-  const cityRef = useRef<HTMLDivElement>(null);
   const searchWrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleOutside = (e: MouseEvent) => {
-      if (cityRef.current && !cityRef.current.contains(e.target as Node)) {
-        setCityOpen(false);
-      }
       if (searchWrapRef.current && !searchWrapRef.current.contains(e.target as Node)) {
         setSuggestOpen(false);
       }
@@ -107,56 +97,10 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           )}
         </div>
 
-        {/* Vertical Divider */}
-        <div className="hidden md:block h-7 w-px bg-neutral-300 mx-2 shrink-0" aria-hidden="true" />
-
-        {/* Location Picker + Search Button */}
-        <div className="flex items-center justify-between md:justify-end gap-2">
-          <div className="relative flex-1 md:flex-none" ref={cityRef}>
-            <button
-              type="button"
-              onClick={() => setCityOpen((o) => !o)}
-              aria-expanded={cityOpen}
-              aria-label={`Search city: ${selectedCity}`}
-              className="w-full md:w-auto flex items-center justify-between md:justify-center gap-2 px-3.5 py-2 rounded-xl md:rounded-full text-[#151515] hover:bg-neutral-100 font-semibold text-[14px] transition-colors whitespace-nowrap cursor-pointer"
-            >
-              <span className="flex items-center gap-1.5">
-                <MapPin className="w-4 h-4 text-[#111] fill-[#111]" />
-                <span>{selectedCity}</span>
-              </span>
-              <ChevronDown className="w-4 h-4 text-neutral-700" />
-            </button>
-
-            {cityOpen && (
-              <div
-                role="menu"
-                className="absolute left-0 md:right-0 md:left-auto top-full mt-2 w-44 rounded-xl bg-[#141418] border border-white/15 shadow-2xl py-1.5 z-50"
-              >
-                {CITIES.map((city) => (
-                  <button
-                    key={city}
-                    type="button"
-                    role="menuitem"
-                    onClick={() => {
-                      onSelectCity(city);
-                      setCityOpen(false);
-                    }}
-                    className={`w-full text-left px-3.5 py-2 text-[13px] transition-colors cursor-pointer ${
-                      city === selectedCity
-                        ? 'bg-[#E50914] text-white font-semibold'
-                        : 'text-white/85 hover:bg-white/10'
-                    }`}
-                  >
-                    {city}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
+        <div className="flex items-center justify-stretch px-0 md:justify-end md:pr-0.5">
           <button
             type="submit"
-            className="bg-gradient-to-r from-[#D90913] to-[#FF1F28] hover:brightness-110 active:scale-[0.98] text-white font-semibold text-[14.5px] px-7 md:px-9 py-2.5 rounded-xl md:rounded-full shadow-[0_4px_14px_rgba(229,9,20,0.4)] transition-all whitespace-nowrap shrink-0 cursor-pointer"
+            className="w-full md:w-auto bg-gradient-to-r from-[#D90913] to-[#FF1F28] hover:brightness-110 active:scale-[0.98] text-white font-semibold text-[14.5px] px-7 md:px-9 py-2.5 rounded-xl md:rounded-full shadow-[0_4px_14px_rgba(229,9,20,0.4)] transition-all whitespace-nowrap shrink-0 cursor-pointer"
           >
             Search
           </button>
@@ -192,7 +136,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
               <div>
                 <p className="text-[11px] uppercase tracking-wider text-white/50 font-semibold mb-2 flex items-center gap-1">
                   <TrendingUp className="w-3 h-3 text-[#FF252E]" />
-                  <span>Popular in {selectedCity}</span>
+                  <span>Popular Searches</span>
                 </p>
                 <div className="flex flex-wrap gap-1.5">
                   {POPULAR_TERMS.map((term) => (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ArrowRight } from 'lucide-react';
 
 interface HeroProps {
@@ -6,8 +6,6 @@ interface HeroProps {
 }
 
 export const Hero: React.FC<HeroProps> = ({ onBookNow }) => {
-  const [imgError, setImgError] = useState(false);
-
   return (
     <section
       aria-label="Key2Show Featured Showcase"
@@ -41,35 +39,6 @@ export const Hero: React.FC<HeroProps> = ({ onBookNow }) => {
           <path d="M-20,10 Q45,120 10,260" strokeDasharray="8 10" strokeWidth="18" stroke="rgba(255,210,210,0.4)" />
         </g>
       </svg>
-
-      {/* Right-aligned cinematic cast + reel artwork */}
-      {!imgError && (
-        <div className="hidden md:block absolute right-0 top-0 bottom-0 w-[66%] lg:w-[63%] pointer-events-none">
-          <img
-            src="/assets/images/hero-cast.jpg"
-            alt="Cinema stars, film reel, and live performers"
-            referrerPolicy="no-referrer"
-            onError={() => setImgError(true)}
-            className="w-full h-full object-cover object-[18%_18%]"
-          />
-          {/* Smooth left-to-right gradient mask blending without darkening the film reel */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background:
-                'linear-gradient(90deg, #0a0102 0%, rgba(22,2,5,0.8) 9%, rgba(22,2,5,0.28) 22%, transparent 40%)',
-            }}
-          />
-          {/* Bottom dark fade for search bar overlap */}
-          <div
-            className="absolute inset-x-0 bottom-0 h-14"
-            style={{
-              background:
-                'linear-gradient(to top, rgba(5,5,5,0.88) 0%, rgba(5,5,5,0.2) 55%, transparent 100%)',
-            }}
-          />
-        </div>
-      )}
 
       {/* Subtle red-lit crowd silhouettes along bottom */}
       <svg

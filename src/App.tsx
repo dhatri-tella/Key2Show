@@ -461,8 +461,6 @@ export default function App() {
                   navigate('/search');
                 }
               }}
-              selectedCity={selectedCity}
-              onSelectCity={setSelectedCity}
               movies={movies}
               theatres={theatres}
               events={events}
